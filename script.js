@@ -6,4 +6,5 @@ let fullPrice;
 let adaptive;
 
 window.alert("My First Home Work");
+
 console.log("First Home Work");
