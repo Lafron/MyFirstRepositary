@@ -1,10 +1,24 @@
-let title;
-let screens;
-let screenPrice;
-let rollback;
-let fullPrice;
-let adaptive; 
+let title="Calculator";
+let screens="Простые, Сложные, Интерактивные";
 
-window.alert("My First Home Work");
+let screenPrice="200$";
+let rollback=20;
+let fullPrice=220;
+let adaptive=true;
 
-console.log("First Home Work");
+console.log(typeof title);
+console.log(typeof fullPrice);
+console.log(typeof adaptive);
+
+
+console.log(screens.length);
+
+console.log("Стоимость верстки экранов: "+screenPrice+"$");
+console.log("Стоимость разработки сайта: "+fullPrice+"$");
+
+const lowScreens=screens.toLowerCase();
+const arr=lowScreens.split(", ");
+
+console.log(arr);
+
+console.log(fullPrice * (rollback/100));
