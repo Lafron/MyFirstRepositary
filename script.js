@@ -46,3 +46,9 @@ switch(lang){
     default:
         alert("Error");
 }
+
+let namePerson=prompt("Enter your name");
+
+namePerson=="Артем"?console.log("директор"):
+    namePerson=="Александр"?console.log("преподаватель"):
+        console.log("студент");
