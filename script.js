@@ -7,14 +7,17 @@ let fullPrice=220;
 let adaptive=true;
 
 title=prompt("Как называется ваш проект?");
+
 let sPrice;
+
 do{
     sPrice=+prompt("Сколько будет стоить данная работа?");
-    if(isNaN(sPrice)){
+    if(isNaN(sPrice)||(sPrice<0)){
         alert("Введите валидное число!");
     }
-}while(isNaN(sPrice));
+}while(isNaN(sPrice)||(sPrice<0));
 screenPrice=sPrice;
+
 
 adaptive=confirm("Нужен ли адаптив на сайте?");
 
@@ -22,10 +25,10 @@ adaptive=confirm("Нужен ли адаптив на сайте?");
 let service1=prompt("Какой дополнительный тип услуги нужен?");
 do{
     sPrice=+prompt("Сколько это будет стоить?");
-    if(isNaN(sPrice)){
+    if(isNaN(sPrice)||(sPrice<0)){
         alert("Введите валидное число!");
     }
-}while(isNaN(sPrice));
+}while(isNaN(sPrice)||(sPrice<0));
 let servicePrice1=sPrice;
 
 
@@ -33,10 +36,10 @@ let servicePrice1=sPrice;
 let service2=prompt("Какой дополнительный тип услуги нужен?");
 do{
     sPrice=+prompt("Сколько это будет стоить?");
-    if(isNaN(sPrice)) {
+    if(isNaN(sPrice)||(sPrice<0)) {
         alert("Введите валидное число!");
     }
-}while(isNaN(sPrice));
+}while(isNaN(sPrice)||(sPrice<0));
 let servicePrice2=sPrice;
 
 
