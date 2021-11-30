@@ -26,7 +26,7 @@ function getFullPrice(){
 }
 
 function getServicePercentPrices(){
-    return fullPrice * (rollback/100);
+    return fullPrice * (1 - rollback/100);
 }
 
 let fullPrice = getFullPrice();
