@@ -1,25 +1,19 @@
-let title="Calculator";
+"use strict";
+let title=prompt("Как называется ваш проект?","калькулятор");
 let screens="Простые, Сложные, Интерактивные";
 
-let screenPrice="200$";
 let rollback=20;
-let fullPrice=220;
-let adaptive=true;
-
-title=prompt("Как называется ваш проект?");
 
 let sPrice;
-
 do{
-    sPrice=+prompt("Сколько будет стоить данная работа?");
+    let sPrice=+prompt("Сколько будет стоить данная работа?");
     if(isNaN(sPrice)||(sPrice<0)){
         alert("Введите валидное число!");
     }
 }while(isNaN(sPrice)||(sPrice<0));
-screenPrice=sPrice;
+let screenPrice=sPrice;
 
-
-adaptive=confirm("Нужен ли адаптив на сайте?");
+const adaptive=confirm("Нужен ли адаптив на сайте?");
 
 
 let service1=prompt("Какой дополнительный тип услуги нужен?");
@@ -35,7 +29,7 @@ let servicePrice1=sPrice;
 
 let service2=prompt("Какой дополнительный тип услуги нужен?");
 do{
-    sPrice=+prompt("Сколько это будет стоить?");
+    let sPrice=+prompt("Сколько это будет стоить?");
     if(isNaN(sPrice)||(sPrice<0)) {
         alert("Введите валидное число!");
     }
@@ -43,7 +37,7 @@ do{
 let servicePrice2=sPrice;
 
 
-fullPrice=screenPrice+servicePrice1+servicePrice2;
+let fullPrice=screenPrice+servicePrice1+servicePrice2;
 
 let servicePercentPrice=fullPrice * (rollback/100);
 
