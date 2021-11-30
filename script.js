@@ -11,17 +11,45 @@ const adaptive=confirm("Нужен ли адаптив на сайте?");
 let service1=prompt("Какой дополнительный тип услуги нужен?");
 let servicePrice1=+prompt("Сколько это будет стоить?");
 
-
 let service2=prompt("Какой дополнительный тип услуги нужен?");
 let servicePrice2=+prompt("Сколько это будет стоить?");
 
 
-let fullPrice=screenPrice+servicePrice1+servicePrice2;
-let servicePercentPrice=fullPrice * (rollback/100);
+const getAllServicePrices = function(){
+    return servicePrice1+servicePrice2;
+}; 
 
-console.log(Math.ceil(servicePercentPrice));
+const allServicePrices = getAllServicePrices();
 
-if((fullPrice>30000)||(fullPrice===30000)) {
+function getFullPrice(){
+    return screenPrice + allServicePrices;
+}
+
+function getServicePercentPrices(){
+    return fullPrice * (rollback/100);
+}
+
+let fullPrice = getFullPrice();
+let servicePercentPrice = getServicePercentPrices();
+
+
+const getTitle = function()
+{
+    let i=0;
+    let firstLetter;
+    do{
+        firstLetter = title.substring(i,i+1).toUpperCase();
+        i++;
+    }while(firstLetter===" ");
+    
+    let nTitle = title.slice(i).toLowerCase();
+    title = firstLetter+nTitle;
+    return title;
+};
+
+
+function getRollbackMessage(){
+    if((fullPrice>30000)||(fullPrice===30000)) {
     console.log("Даем скидку в 10%");
 }
 else if((fullPrice>15000)||(fullPrice===15000)) {
@@ -33,20 +61,30 @@ else if(fullPrice>0) {
 else {
     console.log("Что то пошло не так");
 }
-
-console.log(typeof title);
-console.log(typeof fullPrice);
-console.log(typeof adaptive);
+}
 
 
-console.log(screens.length);
+function showTypeOf(arg){
+    console.log(typeof arg);
+}
 
-console.log("Стоимость верстки экранов: "+screenPrice+"$");
-console.log("Стоимость разработки сайта: "+fullPrice+"$");
+console.log(screens.split(""));
 
-const lowScreens=screens.toLowerCase();
-const arr=lowScreens.split(", ");
 
-console.log(arr);
+showTypeOf(title);
+showTypeOf(fullPrice);
+showTypeOf(adaptive);
 
-console.log(fullPrice * (rollback/100));
+console.log("Простые, Сложные, Интерактивные");
+
+getRollbackMessage();
+console.log(Math.ceil(getServicePercentPrices()));
+
+// const lowScreens=screens.toLowerCase();
+// const arr=lowScreens.split(", ");
+
+// console.log(arr);
+
+//console.log(servicePercentPrice);
+
+//console.log(getTitle());
