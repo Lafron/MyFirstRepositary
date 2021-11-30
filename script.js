@@ -1,18 +1,18 @@
 "use strict";
-let title=prompt("Как называется ваш проект?","калькулятор");
-let screens=prompt("Какие типы экранов нужно разработать?","Простые");
+let title = prompt("Как называется ваш проект?","калькулятор");
+let screens = prompt("Какие типы экранов нужно разработать?","Простые");
 
-let rollback=20;
+let rollback = 20;
 
-let screenPrice=+prompt("Сколько будет стоить данная работа?");
+let screenPrice =+ prompt("Сколько будет стоить данная работа?");
 
-const adaptive=confirm("Нужен ли адаптив на сайте?");
+const adaptive = confirm("Нужен ли адаптив на сайте?");
 
-let service1=prompt("Какой дополнительный тип услуги нужен?");
-let servicePrice1=+prompt("Сколько это будет стоить?");
+let service1 = prompt("Какой дополнительный тип услуги нужен?");
+let servicePrice1 =+ prompt("Сколько это будет стоить?");
 
-let service2=prompt("Какой дополнительный тип услуги нужен?");
-let servicePrice2=+prompt("Сколько это будет стоить?");
+let service2 = prompt("Какой дополнительный тип услуги нужен?");
+let servicePrice2 =+ prompt("Сколько это будет стоить?");
 
 
 const getAllServicePrices = function(){
@@ -35,56 +35,49 @@ let servicePercentPrice = getServicePercentPrices();
 
 const getTitle = function()
 {
-    let i=0;
+    title = title.trim();
     let firstLetter;
-    do{
-        firstLetter = title.substring(i,i+1).toUpperCase();
-        i++;
-    }while(firstLetter===" ");
     
-    let nTitle = title.slice(i).toLowerCase();
-    title = firstLetter+nTitle;
+    firstLetter = title.substring(0,1).toUpperCase();
+        
+    title = title.slice(1).toLowerCase();
+    title = firstLetter + title;
     return title;
 };
 
 
-function getRollbackMessage(){
-    if((fullPrice>30000)||(fullPrice===30000)) {
+function getRollbackMessage() {
+    if(fullPrice >= 30000) {
     console.log("Даем скидку в 10%");
 }
-else if((fullPrice>15000)||(fullPrice===15000)) {
+else if(fullPrice >= 15000) {
     console.log("Даем скидку в 5%");
 }
-else if(fullPrice>0) {
+else if(fullPrice > 0) {
     console.log("Скидка не предусмотрена");
-}
+} 
 else {
     console.log("Что то пошло не так");
 }
 }
 
 
-function showTypeOf(arg){
-    console.log(typeof arg);
+function showTypeOf(arg, message) {
+    console.log(message, typeof arg);
 }
 
-console.log(screens.split(""));
+console.log("Значение переменной screens в виде массива: ",screens.split(""));
 
 
-showTypeOf(title);
-showTypeOf(fullPrice);
-showTypeOf(adaptive);
+showTypeOf(title, "Тип переменной title: ");
+showTypeOf(fullPrice, "Тип переменной fullPrice: ");
+showTypeOf(adaptive, "Тип переменной adaptive: ");
 
-console.log("Простые, Сложные, Интерактивные");
+console.log("Тип экрана: ", screens);
 
 getRollbackMessage();
-console.log(Math.ceil(getServicePercentPrices()));
 
-// const lowScreens=screens.toLowerCase();
-// const arr=lowScreens.split(", ");
+console.log("Cтоимость за вычетом процента отката посреднику: ",
+    Math.ceil(getServicePercentPrices()));
 
-// console.log(arr);
-
-//console.log(servicePercentPrice);
-
-//console.log(getTitle());
+console.log(getTitle());
