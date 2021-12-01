@@ -66,7 +66,7 @@ function showTypeOf(arg, message) {
     console.log(message, typeof arg);
 }
 
-console.log("Значение переменной screens в виде массива: ",screens.split(""));
+console.log("Значение переменной screens в виде массива: ",screens.split(" "));
 
 
 showTypeOf(title, "Тип переменной title: ");
