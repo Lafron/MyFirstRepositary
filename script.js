@@ -1,28 +1,75 @@
 "use strict";
 let title = prompt("Как называется ваш проект?","калькулятор");
+if(typeof title != String){
+    title = title.toString();
+}
+
 let screens = prompt("Какие типы экранов нужно разработать?","Простые");
+if(typeof screens != String){
+    screens = screens.toString();
+}
 
 let rollback = 20;
 
-let screenPrice =+ prompt("Сколько будет стоить данная работа?");
+let sPrice;
+do {
+    sPrice = prompt("Сколько будет стоить данная работа?");
+    if(sPrice == null) {
+        sPrice = 0;
+    }
+    else {
+        sPrice = parseInt(sPrice.trim());
+        if(isNaN(sPrice)||(sPrice<0)){
+            alert("Введите валидное число!");
+    }
+}
+}while(isNaN(sPrice)||(sPrice<0));
+let screenPrice=sPrice;
+//console.log(screenPrice);
 
-const adaptive = confirm("Нужен ли адаптив на сайте?");
+//let screenPrice =+ prompt("Сколько будет стоить данная работа?");
+
+let adaptive = confirm("Нужен ли адаптив на сайте?");
+if(typeof adaptive != Boolean){
+    adaptive = Boolean(adaptive);
+}
 
 let service1 = prompt("Какой дополнительный тип услуги нужен?");
-let servicePrice1 =+ prompt("Сколько это будет стоить?");
+if(typeof service1 != String){
+    service1 = service1.toString();
+}
+
+let servicePrice1 = prompt("Сколько это будет стоить?");
 
 let service2 = prompt("Какой дополнительный тип услуги нужен?");
-let servicePrice2 =+ prompt("Сколько это будет стоить?");
+if(typeof service2 != String){
+    service2 = service2.toString();
+}
+
+let servicePrice2 = prompt("Сколько это будет стоить?");
 
 
 const getAllServicePrices = function(){
-    return servicePrice1+servicePrice2;
+    servicePrice1 = CheckPrice(servicePrice1, service1);
+    servicePrice2 = CheckPrice(servicePrice2, service2);
+
+    return +servicePrice1+servicePrice2;
 }; 
 
+function CheckPrice(price, serv)
+{
+    let servP = parseInt(price.trim());
+    if ((isNaN(servP)||(servP<0)))
+    {
+        console.log("Введенное значение стоимости " + serv + " не является числом!");
+        servP = 0;
+    }
+    return servP;
+}
 const allServicePrices = getAllServicePrices();
 
 function getFullPrice(){
-    return screenPrice + allServicePrices;
+    return screenPrice + parseInt(allServicePrices);
 }
 
 function getServicePercentPrices(){
