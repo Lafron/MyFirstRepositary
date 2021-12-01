@@ -1,41 +1,16 @@
 "use strict";
 let title = prompt("Как называется ваш проект?","калькулятор");
-if(title == null) {
-    title = "no title";
-}
-else{
-    if(typeof title != String){
-        title = title.toString();
-    }
-}
-
+title = CheckString(title);
 
 let screens = prompt("Какие типы экранов нужно разработать?","Простые");
-if(screens == null) {
-    screens = "no screen";
-}
-else{
-    if(typeof screens != String){
-        screens = screens.toString();
-    }
-}
+screens = CheckString(screens);
 
 let rollback = 20;
 
-let sPrice;
+let screenPrice;
 do {
-    sPrice = prompt("Сколько будет стоить данная работа?");
-    if(sPrice == null) {
-        sPrice = 0;
-    }
-    else {
-        sPrice = parseInt(sPrice.trim());
-        if(isNaN(sPrice)||(sPrice<0)){
-            alert("Введите валидное число!");
-    }
-}
-}while(isNaN(sPrice)||(sPrice<0));
-let screenPrice=sPrice;
+    screenPrice = prompt("Сколько будет стоить данная работа?");
+}while(CheckPrice(screenPrice) == 0);
 
 
 let adaptive = confirm("Нужен ли адаптив на сайте?");
@@ -43,47 +18,42 @@ if(typeof adaptive != Boolean){
     adaptive = Boolean(adaptive);
 }
 
+function CheckString(str){
+    if(str == null) {
+        str = "";
+    }
+    else{
+        if(typeof str != String){
+            str = str.toString();
+        }
+    }
+    return str;
+}
+
 const getAllServicePrices = function(){
     let service1 = prompt("Какой дополнительный тип услуги нужен?");
-    if(service1 != null){
-        if(typeof service1 != String){
-            service1 = service1.toString();
-        }
-        else{
-            service1 = "";
-        }
-    }
-    else{
-        service1 = "";
-    }
+    service1 = CheckString(service1);
 
     let servicePrice1;
-    do{
-        servicePrice1 = prompt("Сколько это будет стоить?");
-    }while(CheckPrice(servicePrice1, service1) == 0);
-    
+    servicePrice1 = priceTest(servicePrice1);
+
     let service2 = prompt("Какой дополнительный тип услуги нужен?");
-    if(service2 != null){
-        if(typeof service2 != String){
-            service2 = service2.toString();
-        }
-        else{
-            service2 = "";
-        }
-    }
-    else{
-        service2 = "";
-    }
+    service2 = CheckString(service2);
 
     let servicePrice2;
-    do{
-        servicePrice2 = prompt("Сколько это будет стоить?");
-    }while(CheckPrice(servicePrice2, service2) == 0);
-    
+    servicePrice2 = priceTest(servicePrice2);    
+
     return parseInt(servicePrice1) + parseInt(servicePrice2);
 }; 
 
-function CheckPrice(price, serv)
+function priceTest(price){
+    do{
+        price = prompt("Сколько это будет стоить?");
+    }while(CheckPrice(price) == 0);
+    return price;
+}
+
+function CheckPrice(price)
 {
     let servP;
     if(price == null) {
@@ -107,7 +77,7 @@ let fullPrice = getFullPrice();
 
 function getFullPrice(){
 
-    return screenPrice + allServicePrices;
+    return parseInt(screenPrice) + allServicePrices;
 }
 
 function getServicePercentPrices(){
