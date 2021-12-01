@@ -1,5 +1,7 @@
 let answ = parseInt(prompt("Enter a number: ").trim());
-
-if(!isNaN(answ)){
-    const result = answ;
+let result = 0;
+if(!(isNaN(answ))){
+    result = answ;
 }
+
+console.log(result);
