@@ -5,8 +5,8 @@ if(title == null) {
 }
 else{
     if(typeof title != String){
-    title = title.toString();
-}
+        title = title.toString();
+    }
 }
 
 
@@ -16,7 +16,7 @@ if(screens == null) {
 }
 else{
     if(typeof screens != String){
-    screens = screens.toString();
+        screens = screens.toString();
     }
 }
 
@@ -43,38 +43,44 @@ if(typeof adaptive != Boolean){
     adaptive = Boolean(adaptive);
 }
 
-let service1 = prompt("Какой дополнительный тип услуги нужен?");
-if(service1 != null){
-    if(typeof service1 != String){
-    service1 = service1.toString();
+const getAllServicePrices = function(){
+    let service1 = prompt("Какой дополнительный тип услуги нужен?");
+    if(service1 != null){
+        if(typeof service1 != String){
+            service1 = service1.toString();
+        }
+        else{
+            service1 = "";
+        }
     }
     else{
         service1 = "";
     }
-}
 
-
-let servicePrice1 = prompt("Сколько это будет стоить?");
-
-let service2 = prompt("Какой дополнительный тип услуги нужен?");
-if(service2 != null){
-    if(typeof service2 != String){
-    service2 = service2.toString();
+    let servicePrice1;
+    do{
+        servicePrice1 = prompt("Сколько это будет стоить?");
+    }while(CheckPrice(servicePrice1, service1) == 0);
+    
+    let service2 = prompt("Какой дополнительный тип услуги нужен?");
+    if(service2 != null){
+        if(typeof service2 != String){
+            service2 = service2.toString();
+        }
+        else{
+            service2 = "";
+        }
     }
     else{
         service2 = "";
     }
-}
 
-let servicePrice2 = prompt("Сколько это будет стоить?");
-
-
-const getAllServicePrices = function(){
+    let servicePrice2;
+    do{
+        servicePrice2 = prompt("Сколько это будет стоить?");
+    }while(CheckPrice(servicePrice2, service2) == 0);
     
-    servicePrice1 = CheckPrice(servicePrice1, service1);
-    servicePrice2 = CheckPrice(servicePrice2, service2);
-
-    return +servicePrice1+servicePrice2;
+    return parseInt(servicePrice1) + parseInt(servicePrice2);
 }; 
 
 function CheckPrice(price, serv)
@@ -85,25 +91,29 @@ function CheckPrice(price, serv)
     }
     else{
         servP = parseInt(price.trim());
+        
         if ((isNaN(servP)||(servP<0)))
         {
-        console.log("Введенное значение стоимости " + serv + " не является числом!");
-        servP = 0;
+            alert("Введите валидное число!");
+            servP = 0;
         }
     }
     return servP;
 }
+    
 const allServicePrices = getAllServicePrices();
 
+let fullPrice = getFullPrice();
+
 function getFullPrice(){
-    return screenPrice + parseInt(allServicePrices);
+
+    return screenPrice + allServicePrices;
 }
 
 function getServicePercentPrices(){
     return fullPrice * (1 - rollback/100);
 }
 
-let fullPrice = getFullPrice();
 let servicePercentPrice = getServicePercentPrices();
 
 
