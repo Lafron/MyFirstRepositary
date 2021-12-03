@@ -144,9 +144,9 @@ const appData = {
 
         console.log(appData.getTitle());
 
-        for( let k in appData)
+        for(let k in appData)
         {
-            console.log(k);
+            console.log(k+": "+appData[k]);
         } 
     }
 };
