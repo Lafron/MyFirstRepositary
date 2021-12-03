@@ -8,12 +8,13 @@ let dayNow = d.getDay();
 
 for(let k in weak)
 {
+    k = parseInt(k);
     let classN = "";
     if((k == 0)||(k == 6))
     {
         classN = 'class="hofesh"';
     }
-    if(k == dayNow.toString())
+    if(k == dayNow)
     {
         classN = 'class="today"';
     }
