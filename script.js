@@ -31,6 +31,23 @@ const appData = {
             appData.adaptive = Boolean(appData.adaptive);
         }
 
+        let name = "";
+        let price = 0;
+
+        for(let i = 0; i < 2; i++){
+            do{
+                name = prompt("Какой дополнительный тип услуги нужен?");
+            }while(appData.CheckString(name) == 0);
+
+            name+=i;
+            
+            do{
+                price = appData.priceTest(price);
+            }while(appData.CheckPrice(price) == 0);
+            
+            appData.services[name] = +price;
+            appData.getAllServicePrices(name);
+        }
     },
 
     CheckString: function(str){
@@ -75,24 +92,7 @@ const appData = {
         return servP;
     },
 
-    getAllServicePrices: () =>{
-        let name = "";
-        let price = 0;
-
-        for(let i = 0; i < 2; i++){
-            name = prompt("Какой дополнительный тип услуги нужен?");
-            name = appData.CheckString(name);
-
-            name+=i;
-            
-            price = appData.priceTest(price);
-
-            appData.services[name] = +price;
-
-            appData.allServicePrices += appData.services[name] ;
-        }
-
-    },
+    getAllServicePrices: name => appData.allServicePrices += appData.services[name],
 
     getFullPrice: () => appData.fullPrice = 
         parseInt(appData.screenPrice) + appData.allServicePrices,
@@ -131,7 +131,7 @@ const appData = {
 
         appData.asking();
         
-        appData.getAllServicePrices();
+        //appData.getAllServicePrices();
 
         appData.getFullPrice();
 
