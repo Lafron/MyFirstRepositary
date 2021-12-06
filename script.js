@@ -34,18 +34,20 @@ const appData = {
     },
 
     CheckString: function(str){
-        console.log("str: ",str );
-        console.log("parseInt(str): ",parseInt(str));
         let result = 0;
         if(str == null) {
             result = 1;
         }
-        else if(isNaN(parseInt(str))){
+        else{
+            str = parseInt(str);
+            if(isNaN(str)){
               result = 1;
             }
             else{
-            alert("Введите строку!");    
+                alert("Введите строку!");    
             }
+        } 
+        
         return result;    
     },
 
@@ -82,7 +84,6 @@ const appData = {
             name = appData.CheckString(name);
 
             name+=i;
-            console.log("name+=i: ",name);
             
             price = appData.priceTest(price);
 
