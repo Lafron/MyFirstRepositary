@@ -159,10 +159,10 @@ const appData = {
 
         console.log(appData.title);
 
-        // for(let k in appData)
-        // {
-        //     console.log(k+": "+appData[k]);
-        // } 
+        for(let k in appData)
+        {
+            console.log(k+": "+appData[k]);
+        } 
     }
 };
 
