@@ -2,9 +2,9 @@
 
 const appData = {
     title: "",
-    screens: "",
+    screens: [],
     rollback: 20,
-    screenPrice: 0,
+    screenPrice: [],
     adaptive: true,
     services: {},
     allServicePrices: 0,
@@ -14,17 +14,18 @@ const appData = {
     asking: function(){
         do{
             appData.title = prompt("Как называется ваш проект?","калькулятор");
-        }while(appData.CheckString(appData.title) == 0);
+        }while(appData.CheckString(appData.title));
 
-        do{
-            appData.screens = prompt("Какие типы экранов нужно разработать?","Простые");
-        }while(appData.CheckString(appData.screens) == 0);
-        
-
-        do {
-            appData.screenPrice = prompt("Сколько будет стоить данная работа?");
-        }while(appData.CheckPrice(appData.screenPrice) == 0);
-
+        for(let i = 0; i < 2; i++)
+        {
+            do{
+                appData.screens[i] = prompt("Какие типы экранов нужно разработать?","Простые");
+            }while(appData.CheckString(appData.screens[i]));
+            
+            do {
+                appData.screenPrice[i] = prompt("Сколько будет стоить данная работа?");
+            }while(appData.CheckPrice(appData.screenPrice[i]));
+        }
 
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
         if(typeof appData.adaptive != Boolean){
@@ -37,28 +38,29 @@ const appData = {
         for(let i = 0; i < 2; i++){
             do{
                 name = prompt("Какой дополнительный тип услуги нужен?");
-            }while(appData.CheckString(name) == 0);
+            }while(appData.CheckString(name));
 
             name+=i;
             
             do{
-                price = appData.priceTest(price);
-            }while(appData.CheckPrice(price) == 0);
+                price = prompt("Сколько это будет стоить?");
+            }while(appData.CheckPrice(price));
             
             appData.services[name] = +price;
             appData.getAllServicePrices(name);
         }
     },
 
-    CheckString: function(str){
-        let result = 0;
+    CheckString: function(str){ 
+        let result = true;
         if(str == null) {
-            result = 1;
+            result = true;
+            alert("Введите строку!");
         }
         else{
             str = parseInt(str);
             if(isNaN(str)){
-              result = 1;
+              result = false;
             }
             else{
                 alert("Введите строку!");    
@@ -68,34 +70,32 @@ const appData = {
         return result;    
     },
 
-    priceTest: price =>{
-        do{
-            price = prompt("Сколько это будет стоить?");
-        }while(appData.CheckPrice(price) == 0);
-        return price;
-    },
-
     CheckPrice: function(price) {
-        let servP;
+        let servP = false;
         if(price == null) {
-            servP = 0;
+            servP = true;
+            alert("Введите валидное число!");
         }
         else{
-            servP = parseInt(price.trim());
+            price = parseInt(price.trim());
         
-            if ((isNaN(servP)||(servP<0)))
+            if ((isNaN(price) || (price < 0)))
             {
+                servP = true;
                 alert("Введите валидное число!");
-                servP = 0;
             }
         }
+        
         return servP;
     },
 
     getAllServicePrices: name => appData.allServicePrices += appData.services[name],
 
+    getScreensPrice: () => appData.screenPrice.reduce((one, two) => 
+        parseInt(one) + parseInt(two)),
+
     getFullPrice: () => appData.fullPrice = 
-        parseInt(appData.screenPrice) + appData.allServicePrices,
+        parseInt(appData.getScreensPrice()) + appData.allServicePrices,
 
     getServicePercentPrices: () => appData.servicePercentPrice = 
         appData.fullPrice * (1 -appData.rollback/100),
@@ -144,7 +144,7 @@ const appData = {
 
     logger: function()
     {
-        console.log("Значение переменной screens в виде массива: ",appData.screens.split(" "));
+        //console.log("Значение переменной screens в виде массива: ",appData.screens);
 
         appData.showTypeOf(appData.adaptive, "Тип переменной adaptive: ");
         appData.showTypeOf(appData.title, "Тип переменной title: ");
