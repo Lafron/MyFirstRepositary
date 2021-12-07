@@ -27,7 +27,7 @@ const appData = {
                 name = prompt("Какие типы экранов нужно разработать?","Простые");
             }while(appData.CheckString(name));
             
-            name+=i;
+            name = name.trim() + "_"+ i;
 
             do {
                 price = prompt("Сколько будет стоить данная работа?");
@@ -37,7 +37,7 @@ const appData = {
             priceArr.push(price);
 
         }
-        this.screens.push(priceArr);
+        this.screens.push(nameArr);
         this.screens.push(priceArr);
         
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
@@ -52,8 +52,8 @@ const appData = {
             do{
                 name = prompt("Какой дополнительный тип услуги нужен?");
             }while(appData.CheckString(name));
-
-            name+=i;
+            
+            name = `${name.trim()}_${i}`;
             
             do{
                 price = prompt("Сколько это будет стоить?");
@@ -64,20 +64,23 @@ const appData = {
         }
     },
 
-    CheckString: function(str){ 
+    CheckString: function(str) { 
         let result = true;
-        if(str == null) {
-            result = true;
-            alert("Введите строку!");
-        }
-        else{
-            str = parseInt(str);
-            if(isNaN(str)){
-              result = false;
+        
+        if(str != null) {
+            str = str.trim();
+            if(str == "") {
+                alert("Введите строку!");
             }
             else{
-                alert("Введите строку!");    
+                str = parseInt(str);
+                if(isNaN(str) || (str == 0)){
+                    result = false;
+                }
             }
+        }
+        else{
+            alert("Введите строку!");
         } 
         
         return result;    
@@ -120,7 +123,6 @@ const appData = {
         
         appData.title = appData.title.slice(1).toLowerCase();
         appData.title = firstLetter + appData.title;
-        //return appData.title;
     },
 
     getRollbackMessage: function() {
@@ -144,8 +146,6 @@ const appData = {
 
         appData.asking();
         
-        //appData.getAllServicePrices();
-
         appData.getFullPrice();
 
         appData.getServicePercentPrices();
@@ -157,8 +157,6 @@ const appData = {
 
     logger: function()
     {
-        //console.log("Значение переменной screens в виде массива: ",appData.screens);
-
         appData.showTypeOf(appData.adaptive, "Тип переменной adaptive: ");
         appData.showTypeOf(appData.title, "Тип переменной title: ");
         appData.showTypeOf(appData.fullPrice, "Тип переменной fullPrice: ");
