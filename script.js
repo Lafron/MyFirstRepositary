@@ -4,7 +4,6 @@ const appData = {
     title: "",
     screens: [],
     rollback: 20,
-    screenPrice: [],
     adaptive: true,
     services: {},
     allServicePrices: 0,
@@ -12,30 +11,45 @@ const appData = {
     servicePercentPrice: 0,
 
     asking: function(){
+        let nameArr = [];
+        let priceArr = [];
+        
         do{
             appData.title = prompt("Как называется ваш проект?","калькулятор");
         }while(appData.CheckString(appData.title));
 
         for(let i = 0; i < 2; i++)
         {
-            do{
-                appData.screens[i] = prompt("Какие типы экранов нужно разработать?","Простые");
-            }while(appData.CheckString(appData.screens[i]));
-            
-            do {
-                appData.screenPrice[i] = prompt("Сколько будет стоить данная работа?");
-            }while(appData.CheckPrice(appData.screenPrice[i]));
-        }
+            let name = "";
+            let price = 0;
 
+            do{
+                name = prompt("Какие типы экранов нужно разработать?","Простые");
+            }while(appData.CheckString(name));
+            
+            name+=i;
+
+            do {
+                price = prompt("Сколько будет стоить данная работа?");
+            }while(appData.CheckPrice(price));
+
+            nameArr.push(name);
+            priceArr.push(price);
+
+        }
+        this.screens.push(nameArr);
+        this.screens.push(priceArr);
+        
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
         if(typeof appData.adaptive != Boolean){
             appData.adaptive = Boolean(appData.adaptive);
         }
 
-        let name = "";
-        let price = 0;
 
         for(let i = 0; i < 2; i++){
+            let name = "";
+            let price = 0;
+
             do{
                 name = prompt("Какой дополнительный тип услуги нужен?");
             }while(appData.CheckString(name));
@@ -91,7 +105,7 @@ const appData = {
 
     getAllServicePrices: name => appData.allServicePrices += appData.services[name],
 
-    getScreensPrice: () => appData.screenPrice.reduce((one, two) => 
+    getScreensPrice: () => appData.screens[1].reduce((one, two) => 
         parseInt(one) + parseInt(two)),
 
     getFullPrice: () => appData.fullPrice = 
