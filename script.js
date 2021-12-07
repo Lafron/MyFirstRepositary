@@ -40,8 +40,6 @@ const appData = {
         this.screens.push(priceArr);
         this.screens.push(priceArr);
         
-        console.log(this.screens);
-        
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
         if(typeof appData.adaptive != Boolean){
             appData.adaptive = Boolean(appData.adaptive);
