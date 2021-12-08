@@ -14,13 +14,12 @@ const inputRange = document.querySelector(".rollback input[type='range']");
 
 const spanRange = document.querySelector(".rollback span[class='range-value'");
 
-const totalInput = document.getElementsByClassName("total-input");
 
-const input0 = totalInput[0];
-const input1 = totalInput[1];
-const input2 = totalInput[2];
-const input3 = totalInput[3];
-const input4 = totalInput[4];
+let totalCost = document.getElementsByClassName("total-input")[0];
+let totalScreenNumber = document.getElementsByClassName("total-input")[1];
+let totalServicesCost = document.getElementsByClassName("total-input")[2];
+let totalFullCost = document.getElementsByClassName("total-input")[3];
+let totalRollbackCost = document.getElementsByClassName("total-input")[4];
 
 let screenDivs = document.querySelectorAll("div[class*='screen'");
 
