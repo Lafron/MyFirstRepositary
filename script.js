@@ -1,31 +1,29 @@
 "use strict";
 
 const h1 = document.getElementsByTagName("h1")[0];
-//console.log(h1);
+
 const btns = document.getElementsByClassName("handler_btn");
-//console.log(btns);
+
 const plusBtn = document.querySelector(".screen-btn");
-//console.log(plusBtn);
+
 const otherPercent = document.querySelectorAll(".other-items", "percent");
-//console.log(otherPercent);
+
 const otherNumber = document.querySelectorAll(".other-items", "number");
-//console.log(otherNumber);
+
 const inputRange = document.querySelector(".rollback input[type='range']");
-//console.log(inputRange);
+
 const spanRange = document.querySelector(".rollback span[class='range-value'");
-//console.log(spanRange);
 
 const totalInput = document.getElementsByClassName("total-input");
-let inputArr = [];
 
-for(let i = 0; i < totalInput.length; i++)
-{
-    inputArr.push(totalInput[i]);
-    //console.log(inputArr[i]);
-}
+const input0 = totalInput[0];
+const input1 = totalInput[1];
+const input2 = totalInput[2];
+const input3 = totalInput[3];
+const input4 = totalInput[4];
 
 let screenDivs = document.querySelectorAll("div[class*='screen'");
-//console.log(screenDivs);
+
 
 
 const appData = {
