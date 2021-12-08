@@ -1,206 +1,71 @@
-"use strict";
+let selectorD = "div[class='book']";
+const divArr = document.querySelectorAll(selectorD);
 
-const h1 = document.getElementsByTagName("h1")[0];
-
-const btns = document.getElementsByClassName("handler_btn");
-
-const plusBtn = document.querySelector(".screen-btn");
-
-const otherPercent = document.querySelectorAll(".other-items", "percent");
-
-const otherNumber = document.querySelectorAll(".other-items", "number");
-
-const inputRange = document.querySelector(".rollback input[type='range']");
-
-const spanRange = document.querySelector(".rollback span[class='range-value'");
+// let arrNum = getNumArr(divArr);
+// console.log(arrNum);
+// console.log(divArr);
 
 
-let totalCost = document.getElementsByClassName("total-input")[0];
-let totalScreenNumber = document.getElementsByClassName("total-input")[1];
-let totalServicesCost = document.getElementsByClassName("total-input")[2];
-let totalFullCost = document.getElementsByClassName("total-input")[3];
-let totalRollbackCost = document.getElementsByClassName("total-input")[4];
+// function getNumArr(linkArr){
+//     let arrNum = [];
 
-let screenDivs = document.querySelectorAll("div[class*='screen'");
+//     for(let i = 0; i < linkArr.length; i++) {
+//         let arrLetter = linkArr[i].innerText.split(" ");
+
+//         for(let j = 0; j < arrLetter.length; j++){
+//             let num = parseInt(arrLetter[j]);
+//             if(!Number.isNaN(num)){
+//                 arrNum.push(num);
+//             }
+//         }
+//     }
+//     return arrNum;
+// }
 
 
+divArr[0].before(divArr[1]);
+divArr[2].before(divArr[4]);
+divArr[2].before(divArr[3]);
+divArr[2].before(divArr[5]);
 
-const appData = {
-    title: "",
-    screens: [],
-    rollback: 20,
-    adaptive: true,
-    services: {},
-    allServicePrices: 0,
-    fullPrice: 0,
-    servicePercentPrice: 0,
+document.querySelector("body").style.backgroundImage = "url(./image/adv.jpg)";
 
-    asking: function(){
-        let nameArr = [];
-        let priceArr = [];
-        
-        do{
-            appData.title = prompt("Как называется ваш проект?","калькулятор");
-        }while(appData.CheckString(appData.title));
+divArr[4].querySelector("h2 > a").textContent = "this и Прототипы Объектов";
 
-        for(let i = 0; i < 2; i++)
-        {
-            let name = "";
-            let price = 0;
+document.querySelector(".adv").remove();
 
-            do{
-                name = prompt("Какие типы экранов нужно разработать?","Простые");
-            }while(appData.CheckString(name));
-            
-            name = name.trim() + "_"+ i;
+let liArr = divArr[0].querySelectorAll("ul>li");
 
-            do {
-                price = prompt("Сколько будет стоить данная работа?");
-            }while(appData.CheckPrice(price));
+//getRowArray(liArr);
 
-            nameArr.push(name);
-            priceArr.push(price);
+liArr[2].before(liArr[3]);
+liArr[2].before(liArr[6]);
+liArr[2].before(liArr[8]);
+liArr[2].before(liArr[4]);
+liArr[2].before(liArr[5]);
+liArr[2].before(liArr[7]);
+liArr[2].before(liArr[9]);
 
-        }
-        this.screens.push(nameArr);
-        this.screens.push(priceArr);
-        
-        appData.adaptive = confirm("Нужен ли адаптив на сайте?");
-        if(typeof appData.adaptive != Boolean){
-            appData.adaptive = Boolean(appData.adaptive);
-        }
 
-        let name = "";
-        let price = 0;
+liArr = divArr[5].querySelectorAll("ul>li");
 
-        for(let i = 0; i < 2; i++){
-            do{
-                name = prompt("Какой дополнительный тип услуги нужен?");
-            }while(appData.CheckString(name));
-            
-            name = `${name.trim()}_${i}`;
-            
-            do{
-                price = prompt("Сколько это будет стоить?");
-            }while(appData.CheckPrice(price));
-            
-            appData.services[name] = +price;
-            appData.getAllServicePrices(name);
-        }
-    },
+//getRowArray(liArr);
 
-    CheckString: function(str) { 
-        let result = true;
-        
-        if(str != null) {
-            str = str.trim();
-            if(str == "") {
-                alert("Введите строку!");
-            }
-            else{
-                str = parseInt(str);
-                if(isNaN(str) || (str == 0)){
-                    result = false;
-                }
-            }
-        }
-        else{
-            alert("Введите строку!");
-        } 
-        
-        return result;    
-    },
+liArr[2].before(liArr[9]);
+liArr[2].before(liArr[3]);
+liArr[5].before(liArr[6]);
+liArr[5].before(liArr[7]);
 
-    CheckPrice: function(price) {
-        let servP = false;
-        if(price == null) {
-            servP = true;
-            alert("Введите валидное число!");
-        }
-        else{
-            price = parseInt(price.trim());
-        
-            if ((isNaN(price) || (price < 0)))
-            {
-                servP = true;
-                alert("Введите валидное число!");
-            }
-        }
-        
-        return servP;
-    },
+// function getRowArray(liArr){
+//     let arrRow = [];
+//     for(let i = 0; i < liArr.length; i++){
+//         arrRow.push(liArr[i].textContent);
+//     }
+//     console.log(arrRow);
+// }
 
-    getAllServicePrices: name => appData.allServicePrices += appData.services[name],
+liArr = divArr[2].querySelectorAll("ul>li");
 
-    getScreensPrice: () => appData.screens[1].reduce((one, two) => 
-        parseInt(one) + parseInt(two)),
-
-    getFullPrice: () => appData.fullPrice = 
-        parseInt(appData.getScreensPrice()) + appData.allServicePrices,
-
-    getServicePercentPrices: () => appData.servicePercentPrice = 
-        appData.fullPrice * (1 -appData.rollback/100),
-
-    getTitle: function() {
-        appData.title = appData.title.trim();
-        let firstLetter;        
-        firstLetter = appData.title.substring(0,1).toUpperCase();
-        
-        appData.title = appData.title.slice(1).toLowerCase();
-        appData.title = firstLetter + appData.title;
-    },
-
-    getRollbackMessage: function() {
-        if(appData.fullPrice >= 30000) {
-            console.log("Даем скидку в 10%");
-        }
-        else if(appData.fullPrice >= 15000) {
-            console.log("Даем скидку в 5%");
-        }
-        else if(appData.fullPrice > 0) {
-            console.log("Скидка не предусмотрена");
-        } 
-        else {
-            console.log("Что то пошло не так");
-        }
-    },
-
-    showTypeOf: (arg, message) => console.log(message, typeof arg),
-
-    Start: function(){
-
-        appData.asking();
-        
-        appData.getFullPrice();
-
-        appData.getServicePercentPrices();
-
-        appData.getTitle();
-
-        appData.logger();
-    },
-
-    logger: function()
-    {
-        appData.showTypeOf(appData.adaptive, "Тип переменной adaptive: ");
-        appData.showTypeOf(appData.title, "Тип переменной title: ");
-        appData.showTypeOf(appData.fullPrice, "Тип переменной fullPrice: ");
-
-        console.log("Тип экрана: ", appData.screens);
-
-        appData.getRollbackMessage();
-
-        console.log("Cтоимость за вычетом процента отката посреднику: ",
-        Math.ceil(appData.getServicePercentPrices()));
-
-        console.log(appData.title);
-
-        for(let k in appData)
-        {
-            console.log(k+": "+appData[k]);
-        } 
-    }
-};
-
-appData.Start();
-
+let li = document.createElement("li");
+li.textContent = "Глава 8: За пределами ES6";
+liArr[8].after(li);
