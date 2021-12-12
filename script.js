@@ -2,7 +2,7 @@
 
 const h1 = document.getElementsByTagName("h1")[0];
 
-const btns = document.getElementsByClassName("handler_btn");
+const btns = document.getElementById("start");
 
 const plusBtn = document.querySelector(".screen-btn");
 
@@ -13,16 +13,18 @@ const otherNumber = document.querySelectorAll(".other-items", "number");
 const inputRange = document.querySelector(".rollback input[type='range']");
 
 const spanRange = document.querySelector(".rollback span[class='range-value'");
-
+const select = document.querySelector("select[name='views-select']");
+const userNumOfScr = document.querySelector("input[placeholder*='Коли']");
+const range = document.querySelector("#range");
+const span = document.querySelector("#range +span");
+//const RollInput = document.querySelector("input[id*='roll'");
 
 let totalCost = document.getElementsByClassName("total-input")[0];
 let totalScreenNumber = document.getElementsByClassName("total-input")[1];
 let totalServicesCost = document.getElementsByClassName("total-input")[2];
 let totalFullCost = document.getElementsByClassName("total-input")[3];
 let totalRollbackCost = document.getElementsByClassName("total-input")[4];
-
 let screenDivs = document.querySelectorAll("div[class*='screen'");
-
 
 
 const appData = {
@@ -35,36 +37,11 @@ const appData = {
     fullPrice: 0,
     servicePercentPrice: 0,
 
-    asking: function(){
-        let nameArr = [];
-        let priceArr = [];
-        
+    asking: function(){        
         do{
             appData.title = prompt("Как называется ваш проект?","калькулятор");
         }while(appData.CheckString(appData.title));
 
-        for(let i = 0; i < 2; i++)
-        {
-            let name = "";
-            let price = 0;
-
-            do{
-                name = prompt("Какие типы экранов нужно разработать?","Простые");
-            }while(appData.CheckString(name));
-            
-            name = name.trim() + "_"+ i;
-
-            do {
-                price = prompt("Сколько будет стоить данная работа?");
-            }while(appData.CheckPrice(price));
-
-            nameArr.push(name);
-            priceArr.push(price);
-
-        }
-        this.screens.push(nameArr);
-        this.screens.push(priceArr);
-        
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
         if(typeof appData.adaptive != Boolean){
             appData.adaptive = Boolean(appData.adaptive);
@@ -138,8 +115,43 @@ const appData = {
     getFullPrice: () => appData.fullPrice = 
         parseInt(appData.getScreensPrice()) + appData.allServicePrices,
 
-    getServicePercentPrices: () => appData.servicePercentPrice = 
-        appData.fullPrice * (1 -appData.rollback/100),
+    addPrices: () => { 
+        let SumOfScreens = 0;
+        let fullPrice = 0;
+
+        appData.rollback = range.value;
+        
+        appData.screens.forEach(function(screen){
+            SumOfScreens += screen.count;
+            fullPrice += screen.price;
+        });
+
+        appData.fullPrice = fullPrice;
+        totalScreenNumber.value = SumOfScreens;
+
+        appData.servicePercentPrice = appData.fullPrice * (1 -appData.rollback/100);
+        totalRollbackCost.value = appData.servicePercentPrice;
+    },
+
+    addScreens: () => {        
+        screenDivs.forEach(function(screen, index){
+            let select = screen.querySelector("select");
+            let input = screen.querySelector("input");
+
+            index = select.selectedIndex;
+            let screenName = select.options[index].text;
+
+            appData.screens.push({
+                id: index,
+                name: screenName,
+                count: +input.value, 
+                price: +select.value * +input.value
+            });
+        });
+        console.log(appData.screens);
+        appData.addPrices();
+        
+    },
 
     getTitle: function() {
         appData.title = appData.title.trim();
@@ -148,21 +160,6 @@ const appData = {
         
         appData.title = appData.title.slice(1).toLowerCase();
         appData.title = firstLetter + appData.title;
-    },
-
-    getRollbackMessage: function() {
-        if(appData.fullPrice >= 30000) {
-            console.log("Даем скидку в 10%");
-        }
-        else if(appData.fullPrice >= 15000) {
-            console.log("Даем скидку в 5%");
-        }
-        else if(appData.fullPrice > 0) {
-            console.log("Скидка не предусмотрена");
-        } 
-        else {
-            console.log("Что то пошло не так");
-        }
     },
 
     showTypeOf: (arg, message) => console.log(message, typeof arg),
@@ -202,5 +199,41 @@ const appData = {
     }
 };
 
-appData.Start();
+//appData.Start();
 
+///1)
+btns.addEventListener("click", appData.addScreens); 
+select.addEventListener("change", handFunc);
+userNumOfScr.addEventListener("input", handFunc);
+
+function startF() {
+    btns.disabled = true;
+    btns.style.opacity = 0.2;
+    }
+
+function handFunc(){
+    let index = select.selectedIndex;
+    
+    let screenNumber = parseInt(userNumOfScr.value);
+    
+    if((index > 0)&&(!isNaN(screenNumber))){
+        btns.disabled = false;
+        btns.style.opacity = 1;
+    }
+    else{
+        startF();
+    }
+        
+}
+
+//2)
+
+const changeRollback = () => {
+    let rollback = range.value;
+    appData.rollback = rollback;
+    span.innerHTML = rollback;
+};
+range.addEventListener("input", changeRollback);
+
+
+startF();
