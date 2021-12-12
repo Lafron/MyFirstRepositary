@@ -13,8 +13,8 @@ const otherNumber = document.querySelectorAll(".other-items", "number");
 const inputRange = document.querySelector(".rollback input[type='range']");
 
 const spanRange = document.querySelector(".rollback span[class='range-value'");
-const select = document.querySelector("select[name='views-select']");
-const userNumOfScr = document.querySelector("input[placeholder*='Коли']");
+let select = document.querySelector("select[name='views-select']");
+let userNumOfScr = document.querySelector("input[placeholder*='Коли']");
 const range = document.querySelector("#range");
 const span = document.querySelector("#range +span");
 //const RollInput = document.querySelector("input[id*='roll'");
@@ -133,7 +133,8 @@ const appData = {
         totalRollbackCost.value = appData.servicePercentPrice;
     },
 
-    addScreens: () => {        
+    addScreens: () => {    
+        appData.screens = [];
         screenDivs.forEach(function(screen, index){
             let select = screen.querySelector("select");
             let input = screen.querySelector("input");
@@ -210,16 +211,24 @@ function startF() {
     }
 
 function handFunc(){
-    let index = select.selectedIndex;
-    
-    let screenNumber = parseInt(userNumOfScr.value);
-    
-    if((index > 0)&&(!isNaN(screenNumber))){
+    let flag = true;
+    screenDivs.forEach(function(screen, index){
+        let select = screen.querySelector("select");
+        let input = screen.querySelector("input");
+        
+        index = select.selectedIndex;
+        let screenNumber = parseInt(input.value);
+
+        if(flag){
+            if((index < 0)||(isNaN(screenNumber))){
+                flag = false;
+                startF();
+            }    
+        }
+    });
+    if(flag){
         btns.disabled = false;
         btns.style.opacity = 1;
-    }
-    else{
-        startF();
     }
         
 }
@@ -233,5 +242,23 @@ const changeRollback = () => {
 };
 range.addEventListener("input", changeRollback);
 
+plusBtn.addEventListener("click", addScreenBlock);
+
+function addScreenBlock(){
+    startF();
+    const cloneScreen = screenDivs[0].cloneNode(true);
+    
+    let select = cloneScreen.querySelector("select");
+    let input = cloneScreen.querySelector("input");
+    input.innerHTML = "";
+
+    screenDivs[screenDivs.length - 1].after(cloneScreen);
+    screenDivs = document.querySelectorAll("div[class*='screen'");
+    screenDivs[screenDivs.length - 1].querySelector("input").value = "";
+    
+    select.addEventListener("change", handFunc);
+    input.addEventListener("input", handFunc);
+        
+}
 
 startF();
