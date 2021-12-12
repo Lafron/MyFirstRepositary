@@ -148,9 +148,7 @@ const appData = {
                 price: +select.value * +input.value
             });
         });
-        console.log(appData.screens);
         appData.addPrices();
-        
     },
 
     getTitle: function() {
