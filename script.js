@@ -185,6 +185,7 @@ function startF() {
 
 function handFunc(){
     let flag = true;
+    
     screenDivs.forEach(function(screen, index){
         let select = screen.querySelector("select");
         let input = screen.querySelector("input");
