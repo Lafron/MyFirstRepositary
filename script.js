@@ -1,22 +1,16 @@
 "use strict";
 
 const h1 = document.getElementsByTagName("h1")[0];
-
 const btns = document.getElementById("start");
-
 const plusBtn = document.querySelector(".screen-btn");
-
 const otherPercent = document.querySelectorAll(".other-items", "percent");
-
 const otherNumber = document.querySelectorAll(".other-items", "number");
 
+const select = document.querySelector("select[name='views-select']");
+const userNumOfScr = document.querySelector("input[placeholder*='Коли']");
 const inputRange = document.querySelector(".rollback input[type='range']");
-
-const spanRange = document.querySelector(".rollback span[class='range-value'");
-let select = document.querySelector("select[name='views-select']");
-let userNumOfScr = document.querySelector("input[placeholder*='Коли']");
 const range = document.querySelector("#range");
-const span = document.querySelector("#range +span");
+const spanRange = document.querySelector("#range +span");
 
 let totalCost = document.getElementsByClassName("total-input")[0];
 let totalScreenNumber = document.getElementsByClassName("total-input")[1];
@@ -153,7 +147,11 @@ const appData = {
     changeRollback: () => {
         let rollback = range.value;
         appData.rollback = rollback;
+<<<<<<< HEAD
         span.innerHTML = rollback;
+=======
+        spanRange.innerHTML = rollback;
+>>>>>>> lesson12
     },
 
     addScreenBlock: () => {
