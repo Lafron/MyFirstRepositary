@@ -23,6 +23,9 @@ let servicesDivs = document.querySelectorAll("div[class*='other-items'");
 
 const reset = document.querySelector("#reset");
 const totalInput = document.querySelectorAll("input[class*='total-input'");
+const check = document.querySelector("#cms-open");
+const hiddenCmsVar = document.querySelector(".hidden-cms-variants");
+const hiddenSelect = hiddenCmsVar.querySelector("select");
 
 
 const appData = {
@@ -38,7 +41,6 @@ const appData = {
     servicePercentPrice: 0,
 
     addPrices: function () { 
-        //console.log("addPrices ",this);
         let SumOfScreens = 0;
         let fullScreensPrice = 0;
         let fullServicePrice = 0;
@@ -59,8 +61,13 @@ const appData = {
         this.allServicesPrice = fullServicePrice;
         this.fullPrice = fullScreensPrice + fullServicePrice;
         
-        let rollback = this.fullPrice * (1 - this.rollback/100);
-        this.servicePercentPrice = Math.round(rollback);
+        if(hiddenSelect.value === "50"){
+            this.servicePercentPrice = Math.round(this.fullPrice * 1.5);    
+        }
+        else{
+            let rollback = this.fullPrice * (1 - this.rollback/100);
+            this.servicePercentPrice = Math.round(rollback);
+        }
     },
 
     addServices: function () {
@@ -119,6 +126,9 @@ const appData = {
         plusBtn.addEventListener("click", this.addScreenBlock);
 
         reset.addEventListener("click", this.resetMethod);
+        check.addEventListener("click", this.showCmsVariants);
+        
+        hiddenSelect.addEventListener("change", this.hiddenSelectChange);
     },
 
     disable: () => {
@@ -132,7 +142,6 @@ const appData = {
     },
 
     handFunc: function () {
-        //console.log("handFunc ",this);
         let flag = true;
     
         screenDivs.forEach( (screen, index) => {
@@ -156,7 +165,6 @@ const appData = {
     },
 
     changeRollback: function () {
-        //console.log("changeRollbackg ", this);
         let rollback = range.value;
         appData.rollback = rollback;
         spanRange.innerHTML = rollback + "%";
@@ -198,12 +206,16 @@ const appData = {
         appData.resetCheckBox();
         appData.resetRange();
         appData.removeBlock();
+        appData.disable();
     },
 
     resetEnable: function () {
         select.disabled = false;
         userNumOfScr.disabled = false;        
         btns.style.display = "block";
+
+        check.checked = false;
+        hiddenCmsVar.style.display = "none";
     },
 
     resetInputValue: function () {
@@ -235,6 +247,26 @@ const appData = {
         
         for(let i = 1; i < length; i++){
             screenDivs[i].remove();
+        }
+    },
+
+    showCmsVariants: function () {
+        if(this.checked === true) {
+            hiddenCmsVar.style.display = "flex";
+        }
+        else{
+            hiddenCmsVar.style.display = "none";
+        }
+    },
+
+    hiddenSelectChange: function () {
+        const mainContrIn = hiddenCmsVar.querySelector("div[class='main-controls__input']");
+        if(this.value === "other"){
+            mainContrIn.style.display="block";
+        }
+        else if(this.value === "50"){
+            appData.servicePercentPrice = appData.fullPrice * 1.5;
+            appData.logger();
         }
     },
 
