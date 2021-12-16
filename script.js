@@ -23,6 +23,9 @@ let servicesDivs = document.querySelectorAll("div[class*='other-items'");
 
 const reset = document.querySelector("#reset");
 const totalInput = document.querySelectorAll("input[class*='total-input'");
+const check = document.querySelector("#cms-open");
+const hiddenCmsVar = document.querySelector(".hidden-cms-variants");
+const hiddenSelect = hiddenCmsVar.querySelector("select");
 
 
 const appData = {
@@ -38,7 +41,6 @@ const appData = {
     servicePercentPrice: 0,
 
     addPrices: function () { 
-        //console.log("addPrices ",this);
         let SumOfScreens = 0;
         let fullScreensPrice = 0;
         let fullServicePrice = 0;
@@ -59,12 +61,16 @@ const appData = {
         this.allServicesPrice = fullServicePrice;
         this.fullPrice = fullScreensPrice + fullServicePrice;
         
-        let rollback = this.fullPrice * (1 - this.rollback/100);
-        this.servicePercentPrice = Math.round(rollback);
+        if(hiddenSelect.value === "50"){
+            this.servicePercentPrice = Math.round(this.fullPrice * 1.5);    
+        }
+        else{
+            let rollback = this.fullPrice * (1 - this.rollback/100);
+            this.servicePercentPrice = Math.round(rollback);
+        }
     },
 
     addServices: function () {
-        //console.log("addServices ",this);
         this.services = {};
         servicesDivs.forEach( div => {
             let checkbox = div.querySelector("input[type='checkbox'");
@@ -78,7 +84,6 @@ const appData = {
     },
 
     addScreens: function () {    
-        //console.log("addScreens ",this);
         this.screens = [];
         screenDivs.forEach( (screen, index) => {
             let select = screen.querySelector("select");
@@ -111,14 +116,17 @@ const appData = {
     },
 
     init: function () {
-        btns.addEventListener("click", this.Start); 
-        select.addEventListener("change",this.handFunc);
-        userNumOfScr.addEventListener("input", this.handFunc);
+        btns.addEventListener("click", this.Start.bind(this)); 
+        select.addEventListener("change",this.handFunc.bind(this));
+        userNumOfScr.addEventListener("input", this.handFunc.bind(this));
 
-        range.addEventListener("input", this.changeRollback);
-        plusBtn.addEventListener("click", this.addScreenBlock);
+        range.addEventListener("input", this.changeRollback.bind(this));
+        plusBtn.addEventListener("click", this.addScreenBlock.bind(this));
 
-        reset.addEventListener("click", this.resetMethod);
+        reset.addEventListener("click", this.resetMethod.bind(this));
+        check.addEventListener("click", this.showCmsVariants);
+        
+        hiddenSelect.addEventListener("change", this.hiddenSelectChange.bind(this));
     },
 
     disable: () => {
@@ -132,9 +140,8 @@ const appData = {
     },
 
     handFunc: function () {
-        //console.log("handFunc ",this);
         let flag = true;
-    
+
         screenDivs.forEach( (screen, index) => {
             let select = screen.querySelector("select");
             let input = screen.querySelector("input");
@@ -145,7 +152,7 @@ const appData = {
             if(flag){
                 if((index < 1)||(isNaN(screenNumber))){
                     flag = false;
-                    appData.disable();
+                    this.disable();
                 }    
             }
         });
@@ -156,14 +163,13 @@ const appData = {
     },
 
     changeRollback: function () {
-        //console.log("changeRollbackg ", this);
         let rollback = range.value;
-        appData.rollback = rollback;
+        this.rollback = rollback;
         spanRange.innerHTML = rollback + "%";
     },
 
     addScreenBlock: function () {
-        appData.disable();
+        this.disable();
         let index = screenDivs.length - 1; 
         const cloneScreen = screenDivs[index].cloneNode(true);
     
@@ -174,11 +180,12 @@ const appData = {
         screenDivs[index].after(cloneScreen);
         screenDivs = document.querySelectorAll("div[class*='screen'");
     
-        select.addEventListener("change", appData.handFunc);
-        input.addEventListener("input", appData.handFunc);    
+        select.addEventListener("change", this.handFunc.bind(this));
+        input.addEventListener("input", this.handFunc.bind(this));    
     },
 
     controlDisable: function() {
+        btns.style.display = "none";
         screenDivs.forEach( screen => {
             let select = screen.querySelector("select");
             let input = screen.querySelector("input");
@@ -191,19 +198,22 @@ const appData = {
     },
 
     resetMethod: function () {
-        this.style.display = "none";
-        
-        appData.resetEnable();
-        appData.resetInputValue();
-        appData.resetCheckBox();
-        appData.resetRange();
-        appData.removeBlock();
+        this.resetEnable();
+        this.resetInputValue();
+        this.resetCheckBox();
+        this.resetRange();
+        this.removeBlock();
+        this.disable();
     },
 
     resetEnable: function () {
+        reset.style.display = "none";
         select.disabled = false;
         userNumOfScr.disabled = false;        
         btns.style.display = "block";
+
+        check.checked = false;
+        hiddenCmsVar.style.display = "none";
     },
 
     resetInputValue: function () {
@@ -238,15 +248,33 @@ const appData = {
         }
     },
 
-    Start: function () {
-        this.style.display = "none";
-        
-        appData.controlDisable();   
-        appData.addScreens();
-        appData.addServices();
-        appData.addPrices();
-        appData.getTitle();
-        appData.logger();
+    showCmsVariants: function () {
+        if(this.checked === true) {
+            hiddenCmsVar.style.display = "flex";
+        }
+        else{
+            hiddenCmsVar.style.display = "none";
+        }
+    },
+
+    hiddenSelectChange: function () {
+        const mainContrIn = hiddenCmsVar.querySelector("div[class='main-controls__input']");
+        if(hiddenSelect.value === "other"){
+            mainContrIn.style.display="block";
+        }
+        else if(hiddenSelect.value === "50"){
+            this.servicePercentPrice = appData.fullPrice * 1.5;
+            this.logger();
+        }
+    },
+
+    Start: function () { 
+        this.addServices();
+        this.controlDisable();   
+        this.addScreens();
+        this.addPrices();
+        this.getTitle();
+        this.logger();
     },
 };
 
