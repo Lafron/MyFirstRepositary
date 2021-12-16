@@ -71,7 +71,6 @@ const appData = {
     },
 
     addServices: function () {
-        //console.log("addServices ",this);
         this.services = {};
         servicesDivs.forEach( div => {
             let checkbox = div.querySelector("input[type='checkbox'");
@@ -85,7 +84,6 @@ const appData = {
     },
 
     addScreens: function () {    
-        //console.log("addScreens ",this);
         this.screens = [];
         screenDivs.forEach( (screen, index) => {
             let select = screen.querySelector("select");
@@ -118,17 +116,17 @@ const appData = {
     },
 
     init: function () {
-        btns.addEventListener("click", this.Start); 
-        select.addEventListener("change",this.handFunc);
-        userNumOfScr.addEventListener("input", this.handFunc);
+        btns.addEventListener("click", this.Start.bind(this)); 
+        select.addEventListener("change",this.handFunc.bind(this));
+        userNumOfScr.addEventListener("input", this.handFunc.bind(this));
 
-        range.addEventListener("input", this.changeRollback);
-        plusBtn.addEventListener("click", this.addScreenBlock);
+        range.addEventListener("input", this.changeRollback.bind(this));
+        plusBtn.addEventListener("click", this.addScreenBlock.bind(this));
 
-        reset.addEventListener("click", this.resetMethod);
+        reset.addEventListener("click", this.resetMethod.bind(this));
         check.addEventListener("click", this.showCmsVariants);
         
-        hiddenSelect.addEventListener("change", this.hiddenSelectChange);
+        hiddenSelect.addEventListener("change", this.hiddenSelectChange.bind(this));
     },
 
     disable: () => {
@@ -143,7 +141,7 @@ const appData = {
 
     handFunc: function () {
         let flag = true;
-    
+
         screenDivs.forEach( (screen, index) => {
             let select = screen.querySelector("select");
             let input = screen.querySelector("input");
@@ -154,7 +152,7 @@ const appData = {
             if(flag){
                 if((index < 1)||(isNaN(screenNumber))){
                     flag = false;
-                    appData.disable();
+                    this.disable();
                 }    
             }
         });
@@ -166,12 +164,12 @@ const appData = {
 
     changeRollback: function () {
         let rollback = range.value;
-        appData.rollback = rollback;
+        this.rollback = rollback;
         spanRange.innerHTML = rollback + "%";
     },
 
     addScreenBlock: function () {
-        appData.disable();
+        this.disable();
         let index = screenDivs.length - 1; 
         const cloneScreen = screenDivs[index].cloneNode(true);
     
@@ -182,11 +180,12 @@ const appData = {
         screenDivs[index].after(cloneScreen);
         screenDivs = document.querySelectorAll("div[class*='screen'");
     
-        select.addEventListener("change", appData.handFunc);
-        input.addEventListener("input", appData.handFunc);    
+        select.addEventListener("change", this.handFunc.bind(this));
+        input.addEventListener("input", this.handFunc.bind(this));    
     },
 
     controlDisable: function() {
+        btns.style.display = "none";
         screenDivs.forEach( screen => {
             let select = screen.querySelector("select");
             let input = screen.querySelector("input");
@@ -199,17 +198,16 @@ const appData = {
     },
 
     resetMethod: function () {
-        this.style.display = "none";
-        
-        appData.resetEnable();
-        appData.resetInputValue();
-        appData.resetCheckBox();
-        appData.resetRange();
-        appData.removeBlock();
-        appData.disable();
+        this.resetEnable();
+        this.resetInputValue();
+        this.resetCheckBox();
+        this.resetRange();
+        this.removeBlock();
+        this.disable();
     },
 
     resetEnable: function () {
+        reset.style.display = "none";
         select.disabled = false;
         userNumOfScr.disabled = false;        
         btns.style.display = "block";
@@ -261,24 +259,22 @@ const appData = {
 
     hiddenSelectChange: function () {
         const mainContrIn = hiddenCmsVar.querySelector("div[class='main-controls__input']");
-        if(this.value === "other"){
+        if(hiddenSelect.value === "other"){
             mainContrIn.style.display="block";
         }
-        else if(this.value === "50"){
-            appData.servicePercentPrice = appData.fullPrice * 1.5;
-            appData.logger();
+        else if(hiddenSelect.value === "50"){
+            this.servicePercentPrice = appData.fullPrice * 1.5;
+            this.logger();
         }
     },
 
-    Start: function () {
-        this.style.display = "none";
-        
-        appData.controlDisable();   
-        appData.addScreens();
-        appData.addServices();
-        appData.addPrices();
-        appData.getTitle();
-        appData.logger();
+    Start: function () { 
+        this.addServices();
+        this.controlDisable();   
+        this.addScreens();
+        this.addPrices();
+        this.getTitle();
+        this.logger();
     },
 };
 
