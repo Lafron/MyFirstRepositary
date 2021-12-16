@@ -260,7 +260,7 @@ const appData = {
     hiddenSelectChange: function () {
         const mainContrIn = hiddenCmsVar.querySelector("div[class='main-controls__input']");
         if(hiddenSelect.value === "other"){
-            mainContrIn.style.display="block";
+            mainContrIn.style.display = "block";
         }
         else if(hiddenSelect.value === "50"){
             this.servicePercentPrice = appData.fullPrice * 1.5;
